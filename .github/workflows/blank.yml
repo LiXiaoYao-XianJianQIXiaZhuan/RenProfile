@@ -1,0 +1,24 @@
+name: Build RenProfile for Windows
+
+on:
+  workflow_dispatch:  # 允许你手动触发编译
+
+jobs:
+  build:
+    runs-on: windows-latest  # 使用最新的 Windows 环境
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v2
+
+    - name: Build with MSBuild
+      run: msbuild RenProfile.sln /p:Configuration=Release /p:Platform=x64
+
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: RenProfile-Windows
+        path: '**/Release/*.exe'  # 根据实际编译输出路径调整
